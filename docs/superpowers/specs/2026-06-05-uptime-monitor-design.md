@@ -153,8 +153,8 @@
 
 ### 3.3 数据保留策略
 
-- **SQLite**：告警历史保留 90 天，定期清理
-- **TSDB**：原始数据 15 天，5 分钟聚合保留 90 天，1 小时聚合保留 1 年
+- **SQLite**：告警历史保留 90 天，定期清理（Server 启动时 + 每日凌晨后台任务）
+- **TSDB**：原始数据 15 天，5 分钟聚合保留 90 天，1 小时聚合保留 1 年。通过 Server 后台定时任务使用 Prometheus recording rules 执行降采样聚合，写入不同 retention 的 TSDB 存储路径
 
 ## 4. Server API 接口
 
@@ -316,7 +316,7 @@ report:
    - 内容匹配告警（contains / not_contains）
 3. 记录连续失败次数（进程内存 `sync.Map`，key: `{monitor_id}_{agent_id}`）
 4. 连续失败 >= `fail_count`？ 否 → 结束
-5. 检查是否已处于告警中 → 是 → 不重复告警
+5. 检查该 (monitor_id, agent_id) 是否已处于告警中 → 是 → 不重复告警
 6. 创建告警记录（alert_history，状态: firing）
 7. 查询关联的告警通道（monitor_alert_channels）
 8. 并发发送通知到所有通道
@@ -352,7 +352,7 @@ report:
 | 钉钉 | POST JSON | 支持签名验证（secret），Markdown 消息格式 |
 | 企业微信 | POST JSON | 支持签名验证，Markdown 消息格式 |
 | 飞书 | POST JSON | 支持签名验证，富文本消息卡片 |
-| 自定义 Webhook | POST JSON | 用户自定义模板变量：`{{monitor_name}}`、`{{status}}`、`{{url}}` 等 |
+| 自定义 Webhook | POST JSON | 用户可配置：HTTP 方法、自定义请求头、请求体模板（支持变量：`{{monitor_name}}`、`{{status}}`、`{{url}}`、`{{agent_name}}`、`{{message}}`、`{{timestamp}}`） |
 
 ### 6.5 失败计数存储
 
@@ -449,6 +449,14 @@ server/
 ├── go.mod
 └── go.sum
 ```
+
+### 8.1.1 Server 后台任务
+
+Server 启动时启动以下后台 goroutine：
+
+- **Agent 心跳检测**：每 30 秒扫描一次 agents 表，将 `last_heartbeat` 超过 `heartbeat_timeout` 的 Agent 标记为 offline
+- **告警历史清理**：每日凌晨清理超过 `alert.history_retention` 天的告警记录
+- **TSDB 降采样**：每 5 分钟执行一次降采样聚合任务
 
 ### 8.2 配置文件 (config.yaml)
 
