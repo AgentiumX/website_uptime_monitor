@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  jwt_secret: "your-jwt-secret"
+  admin_username: "admin"
+  admin_password: "admin123"
+
+agent:
+  shared_secret: "your-shared-secret"
+  heartbeat_timeout: 120
+
+database:
+  path: "./data/uptime.db"
+
+tsdb:
+  path: "./data/tsdb"
+
+alert:
+  history_retention: 90
