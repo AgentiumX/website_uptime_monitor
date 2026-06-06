@@ -13,6 +13,9 @@ database:
 
 tsdb:
   path: "./data/tsdb"
+  retention_raw: "360h"
+  retention_5m: "2160h"
+  retention_1h: "8760h"
 
 alert:
   history_retention: 90

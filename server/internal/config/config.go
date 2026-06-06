@@ -36,7 +36,10 @@ type DatabaseConfig struct {
 
 // TSDBConfig holds Prometheus TSDB settings.
 type TSDBConfig struct {
-	Path string `yaml:"path"`
+	Path         string `yaml:"path"`
+	RetentionRaw string `yaml:"retention_raw"`
+	Retention5m  string `yaml:"retention_5m"`
+	Retention1h  string `yaml:"retention_1h"`
 }
 
 // AlertConfig holds alert-related settings.

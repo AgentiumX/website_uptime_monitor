@@ -108,7 +108,7 @@ func ResolveAlert(id uint) error {
 }
 
 // ListAlertHistory returns a paginated list of alert history records with preloaded associations.
-func ListAlertHistory(page, pageSize int, monitorID uint, status string) ([]model.AlertHistory, int64, error) {
+func ListAlertHistory(page, pageSize int, monitorID uint, status string, alertType string, startTime, endTime time.Time) ([]model.AlertHistory, int64, error) {
 	var records []model.AlertHistory
 	var total int64
 
@@ -118,6 +118,15 @@ func ListAlertHistory(page, pageSize int, monitorID uint, status string) ([]mode
 	}
 	if status != "" {
 		q = q.Where("status = ?", status)
+	}
+	if alertType != "" {
+		q = q.Where("alert_type = ?", alertType)
+	}
+	if !startTime.IsZero() {
+		q = q.Where("triggered_at >= ?", startTime)
+	}
+	if !endTime.IsZero() {
+		q = q.Where("triggered_at <= ?", endTime)
 	}
 
 	if err := q.Count(&total).Error; err != nil {

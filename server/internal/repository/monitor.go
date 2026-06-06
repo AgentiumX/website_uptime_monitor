@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"uptime-monitor/server/internal/model"
 
 	"gorm.io/gorm"
@@ -62,14 +64,10 @@ func ListMonitors(page, pageSize int, keyword string) ([]model.Monitor, int64, e
 // contains the given agent ID. Uses SQLite JSON1 LIKE matching.
 func GetMonitorsByAgent(agentID uint) ([]model.Monitor, error) {
 	var monitors []model.Monitor
-	// agent_ids is stored as e.g. "[1,2,3]", so we match substrings.
-	// A precise check would require JSON1 extension; LIKE is good enough for small ID spaces.
-	err := DB.Where("enabled = ? AND (agent_ids LIKE ? OR agent_ids LIKE ? OR agent_ids LIKE ?)",
-		true,
-		`%[`+itoa(agentID)+`,%`,
-		`%,`+itoa(agentID)+`,%`,
-		`%,`+itoa(agentID)+`]%`,
-	).Find(&monitors).Error
+	s := fmt.Sprintf("%d", agentID)
+	err := DB.Where("enabled = ? AND (agent_ids LIKE ? OR agent_ids LIKE ? OR agent_ids LIKE ? OR agent_ids = ?)",
+		true, "%["+s+",%", "%,"+s+",%", "%,"+s+"]", "["+s+"]").
+		Find(&monitors).Error
 	return monitors, err
 }
 
