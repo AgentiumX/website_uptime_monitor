@@ -13,3 +13,13 @@ func FindUserByUsername(username string) (*model.User, error) {
 	}
 	return &user, nil
 }
+
+// FindUserByID returns the user with the given primary key.
+func FindUserByID(id uint) (*model.User, error) {
+	var user model.User
+	err := DB.First(&user, id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
