@@ -1,0 +1,1 @@
+import{N as e,T as t,Y as n,_ as r,a as i,x as a}from"./index-DM_1Uo7a.js";var o=i(t({__name:`StatusDot`,props:{status:{}},setup(t){let i=t,o=r(()=>`status-dot--${i.status}`);return(t,r)=>(e(),a(`span`,{class:n([`status-dot`,o.value])},null,2))}}),[[`__scopeId`,`data-v-da3daf79`]]);export{o as t};

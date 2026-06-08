@@ -1,0 +1,1 @@
+import{n as e}from"./index-DM_1Uo7a.js";var t=t=>e.get(`/agents`,{params:t}),n=t=>e.delete(`/agents/${t}`);export{t as n,n as t};

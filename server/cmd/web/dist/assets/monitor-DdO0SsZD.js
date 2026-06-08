@@ -1,0 +1,1 @@
+import{n as e}from"./index-DM_1Uo7a.js";var t=t=>e.get(`/monitors`,{params:t}),n=t=>e.get(`/monitors/${t}`),r=t=>e.post(`/monitors`,t),i=(t,n)=>e.put(`/monitors/${t}`,n),a=t=>e.delete(`/monitors/${t}`),o=(t,n)=>e.patch(`/monitors/${t}/toggle`,{enabled:n});export{o as a,t as i,a as n,i as o,n as r,r as t};

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 
 	"uptime-monitor/server/internal/config"

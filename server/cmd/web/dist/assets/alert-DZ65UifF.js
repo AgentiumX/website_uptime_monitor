@@ -1,0 +1,1 @@
+import{n as e}from"./index-DM_1Uo7a.js";var t=t=>e.get(`/alert-channels`,{params:t}),n=t=>e.post(`/alert-channels`,t),r=(t,n)=>e.put(`/alert-channels/${t}`,n),i=t=>e.delete(`/alert-channels/${t}`),a=t=>e.post(`/alert-channels/${t}/test`),o=t=>e.get(`/alert-history`,{params:t});export{a,o as i,i as n,r as o,t as r,n as t};

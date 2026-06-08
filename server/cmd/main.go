@@ -120,16 +120,29 @@ func main() {
 	if err != nil {
 		log.Fatalf("embed web dist: %v", err)
 	}
-	spaFS := http.FS(distFS)
 	r.NoRoute(func(c *gin.Context) {
 		path := c.Request.URL.Path
-		// Try to serve the file directly
-		if path != "/" && !strings.HasPrefix(path, "/api/") {
-			c.FileFromFS(path, spaFS)
+		// For API paths, return 404
+		if strings.HasPrefix(path, "/api/") {
+			c.JSON(http.StatusNotFound, gin.H{"error": "route not found"})
 			return
 		}
+		// Try to serve the file directly from embedded FS
+		if path != "/" {
+			clean := strings.TrimPrefix(path, "/")
+			if f, err := distFS.Open(clean); err == nil {
+				f.Close()
+				c.FileFromFS(path, http.FS(distFS))
+				return
+			}
+		}
 		// Fall back to index.html for SPA routing
-		c.FileFromFS("/index.html", spaFS)
+		data, err := fs.ReadFile(distFS, "index.html")
+		if err != nil {
+			c.String(http.StatusInternalServerError, "index.html not found")
+			return
+		}
+		c.Data(http.StatusOK, "text/html; charset=utf-8", data)
 	})
 
 	// 6. Start background jobs
