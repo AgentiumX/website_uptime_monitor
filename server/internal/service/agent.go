@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"time"
 
 	"uptime-monitor/server/internal/config"
 	"uptime-monitor/server/internal/model"
@@ -48,14 +49,15 @@ func (s *AgentService) Register(req model.AgentRegisterRequest) (*model.AgentReg
 	}, nil
 }
 
-// GetTasks returns the task list for a given agent.
-func (s *AgentService) GetTasks(agentID uint) ([]model.AgentTaskDTO, error) {
+// GetTasks returns the task list and the latest UpdatedAt for a given agent.
+func (s *AgentService) GetTasks(agentID uint) ([]model.AgentTaskDTO, time.Time, error) {
 	monitors, err := repository.GetMonitorsByAgent(agentID)
 	if err != nil {
-		return nil, err
+		return nil, time.Time{}, err
 	}
 
 	tasks := make([]model.AgentTaskDTO, len(monitors))
+	var maxUpdated time.Time
 	for i, m := range monitors {
 		tasks[i] = model.AgentTaskDTO{
 			ID:               m.ID,
@@ -75,8 +77,11 @@ func (s *AgentService) GetTasks(agentID uint) ([]model.AgentTaskDTO, error) {
 			LatencyThreshold: m.LatencyThreshold,
 			FailCount:        m.FailCount,
 		}
+		if m.UpdatedAt.After(maxUpdated) {
+			maxUpdated = m.UpdatedAt
+		}
 	}
-	return tasks, nil
+	return tasks, maxUpdated, nil
 }
 
 // Heartbeat updates the agent's heartbeat timestamp.

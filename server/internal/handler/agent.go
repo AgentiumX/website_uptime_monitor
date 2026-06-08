@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"uptime-monitor/server/internal/model"
+	"uptime-monitor/server/internal/repository"
 	"uptime-monitor/server/internal/service"
 )
 
@@ -55,14 +56,15 @@ func (h *AgentHandler) GetTasks(c *gin.Context) {
 		return
 	}
 
-	tasks, err := h.agentSvc.GetTasks(agentID)
+	tasks, updatedAt, err := h.agentSvc.GetTasks(agentID)
 	if err != nil {
 		Error(c, http.StatusOK, 50001, "获取任务列表失败")
 		return
 	}
 
 	Success(c, gin.H{
-		"tasks": tasks,
+		"tasks":      tasks,
+		"updated_at": updatedAt,
 	})
 }
 
@@ -108,6 +110,32 @@ func (h *AgentHandler) Heartbeat(c *gin.Context) {
 
 	if err := h.agentSvc.Heartbeat(agentID); err != nil {
 		Error(c, http.StatusOK, 50001, "心跳上报失败")
+		return
+	}
+
+	Success(c, nil)
+}
+
+// List handles GET /api/agents — returns all registered agents.
+func (h *AgentHandler) List(c *gin.Context) {
+	agents, err := repository.ListAgents()
+	if err != nil {
+		Error(c, http.StatusOK, 50001, "查询失败")
+		return
+	}
+	Success(c, agents)
+}
+
+// Delete handles DELETE /api/agents/:id — removes an agent.
+func (h *AgentHandler) Delete(c *gin.Context) {
+	id, err := parseUintParam(c, "id")
+	if err != nil {
+		Error(c, http.StatusBadRequest, 40101, "无效的ID参数")
+		return
+	}
+
+	if err := repository.DeleteAgent(id); err != nil {
+		Error(c, http.StatusOK, 50001, "删除失败")
 		return
 	}
 
