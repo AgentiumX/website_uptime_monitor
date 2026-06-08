@@ -1,0 +1,13 @@
+server:
+  url: "http://localhost:8080"
+  shared_secret: "agent-shared-secret"
+agent:
+  name: "本地探测点"
+  location: "本地"
+probe:
+  timeout: 30
+  max_concurrent: 50
+report:
+  interval: 30
+  batch_size: 100
+  retry_max_age: 600

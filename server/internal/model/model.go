@@ -174,22 +174,23 @@ type ReportRequest struct {
 
 // AgentTaskDTO is the task information sent to an agent.
 type AgentTaskDTO struct {
-	ID               uint    `json:"id"`
-	Name             string  `json:"name"`
-	URL              string  `json:"url"`
-	Method           string  `json:"method"`
-	Headers          string  `json:"headers"`
-	Cookie           string  `json:"cookie"`
-	BasicAuthUser    string  `json:"basic_auth_user"`
-	BasicAuthPass    string  `json:"basic_auth_pass"`
-	VerifySSL        bool    `json:"verify_ssl"`
-	Frequency        int     `json:"frequency"`
-	Proxy            string  `json:"proxy"`
-	MatchType        string  `json:"match_type"`
-	MatchContent     string  `json:"match_content"`
-	StatusThreshold  int     `json:"status_threshold"`
-	LatencyThreshold int     `json:"latency_threshold"`
-	FailCount        int     `json:"fail_count"`
+	ID               uint   `json:"id"`
+	Name             string `json:"name"`
+	URL              string `json:"url"`
+	Method           string `json:"method"`
+	Headers          string `json:"headers"`
+	Cookie           string `json:"cookie"`
+	BasicAuthUser    string `json:"basic_auth_user"`
+	BasicAuthPass    string `json:"basic_auth_pass"`
+	VerifySSL        bool   `json:"verify_ssl"`
+	Frequency        int    `json:"frequency"`
+	Proxy            string `json:"proxy"`
+	MatchType        string `json:"match_type"`
+	MatchContent     string `json:"match_content"`
+	StatusThreshold  int    `json:"status_threshold"`
+	LatencyThreshold int    `json:"latency_threshold"`
+	FailCount        int    `json:"fail_count"`
+	UpdatedAt        string `json:"updated_at"`
 }
 
 // PageQuery is a common pagination parameter.

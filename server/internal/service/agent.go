@@ -76,6 +76,7 @@ func (s *AgentService) GetTasks(agentID uint) ([]model.AgentTaskDTO, time.Time, 
 			StatusThreshold:  m.StatusThreshold,
 			LatencyThreshold: m.LatencyThreshold,
 			FailCount:        m.FailCount,
+			UpdatedAt:        m.UpdatedAt.Format(time.RFC3339),
 		}
 		if m.UpdatedAt.After(maxUpdated) {
 			maxUpdated = m.UpdatedAt
