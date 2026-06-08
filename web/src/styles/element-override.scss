@@ -1,0 +1,67 @@
+/* Element Plus Apple-style theme overrides */
+
+/* Buttons */
+.el-button--primary {
+  --el-button-bg-color: var(--color-primary);
+  --el-button-border-color: var(--color-primary);
+  --el-button-hover-bg-color: var(--color-primary-light);
+  --el-button-hover-border-color: var(--color-primary-light);
+  border-radius: var(--radius-btn);
+  font-weight: 500;
+}
+
+.el-button--default {
+  border-radius: var(--radius-btn);
+}
+
+/* Cards */
+.el-card {
+  border-radius: var(--radius-card);
+  border: none;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+/* Table */
+.el-table {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+
+  th.el-table__cell {
+    background-color: #F5F5F7;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+  }
+
+  td.el-table__cell {
+    border-bottom-color: var(--color-border);
+  }
+}
+
+/* Input */
+.el-input__wrapper {
+  border-radius: 10px;
+}
+
+/* Menu (sidebar) */
+.el-menu {
+  border-right: none;
+}
+
+/* Tag */
+.el-tag {
+  border-radius: 8px;
+}
+
+/* Dialog */
+.el-dialog {
+  border-radius: var(--radius-card);
+}

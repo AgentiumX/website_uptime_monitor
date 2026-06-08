@@ -1,0 +1,31 @@
+:root {
+  --color-primary: #0071E3;
+  --color-primary-light: #64ACFF;
+  --color-success: #34C759;
+  --color-warning: #FF9500;
+  --color-danger: #FF3B30;
+  --color-text-primary: #1D1D1F;
+  --color-text-secondary: #86868B;
+  --color-bg: #FBFBFD;
+  --color-bg-card: #FFFFFF;
+  --color-border: #E5E5E7;
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
